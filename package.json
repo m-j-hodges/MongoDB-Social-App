@@ -1,0 +1,30 @@
+{
+  "name": "mongodb-social-app",
+  "version": "1.0.0",
+  "description": "a social app",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-j-hodges/MongoDB-Social-App.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "MongoDB",
+    "Express",
+    "Mongoose"
+  ],
+  "author": "Matthew Hodges",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-j-hodges/MongoDB-Social-App/issues"
+  },
+  "homepage": "https://github.com/m-j-hodges/MongoDB-Social-App#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.2"
+  }
+}
