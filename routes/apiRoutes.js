@@ -23,6 +23,18 @@ Thought.findOneAndUpdate({_id: req.body.thoughtId}, {$addToSet: {reactions: newR
 
 })
 
+//delete a reaction to a thought
+//client needs to provide a thoughtId and reaction
+router.delete('/deleteReaction', (req,res)=> {
+  const findThought = Thought.findOneAndUpdate({_id: req.body.thoughtId}, {$unset: {reactions: ''}}, {new: true}, (err, result) => {
+    err ? console.log(err) : res.json({message: 'record updated',result});
+
+    }
+
+  )
+
+
+})
 
 
 module.exports = router;
