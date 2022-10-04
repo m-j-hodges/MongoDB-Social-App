@@ -1,5 +1,5 @@
 const router = require("express").Router();
-
+const mongoose = require('mongoose')
 const User = require('../models/users')
 
 router.post('/', (req,res) => {

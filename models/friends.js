@@ -4,10 +4,12 @@ const mongoose = require('mongoose')
 
 
 const friendsSchema = mongoose.Schema({
-  friendCount: {type: Number},
+  username: {type: String},
+  email: {type: String},
+  name: {type: String}
 })
 
 const friends = mongoose.model('friends', friendsSchema)
 
 
-module.exports = friends;
+module.exports = friends, friendsSchema

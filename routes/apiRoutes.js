@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const Thought = require('../models/thoughts')
 const reactions = require('../models/reactions')
+const User = require('../models/users')
+const friend = require('../models/friends')
 
 
 router.post('/reaction', async (req,res) => {
@@ -35,6 +37,38 @@ router.delete('/deleteReaction', (req,res)=> {
 
 
 })
+
+
+//add a friend
+router.post('/addFriend', async (req,res) => {
+  const friendName = req.body.friendName
+  const friendEmail = req.body.friendEmail
+  const friendUserName = req.body.friendUserName
+let createFriend
+let newFriend
+  const findFriend = await friend.findOne({email: friendEmail},{lean: true})
+if(findFriend) {
+  newFriend = findFriend
+}
+if(findFriend == null) {
+  createFriend = await friend.create([{name: friendName, email:friendEmail, username: friendUserName}])
+  newFriend = createFriend[0]._doc
+  }
+
+  const addFriend = User.findOneAndUpdate({_id:req.body.id}, {$addToSet: {friends: {_id:newFriend._id}}}, {new:true}, (err, result)=> {
+      if(err) {console.log(err)}
+      else {}
+  })
+  const findUser = User.findOne({_id: req.body.id }, {new: true}).populate('friends').exec((err, result) => {
+    if(err) {console.log(err)}
+    const foundUser = result
+    res.json({message: `New Friend created and added to ${req.body.id}`, result})
+    console.log(result)
+  })
+})
+
+
+
 
 
 module.exports = router;

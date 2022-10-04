@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const {Schema, model} = require('mongoose');
 const thoughtsSchema = require('./thoughts')
+const friendsSchema = require('./friends')
+
+
+
 
 const userSchema = mongoose.Schema({
   name: {type: String, required: true},
@@ -11,10 +15,9 @@ const userSchema = mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Thoughts',
   }],
-  friends: [
-    { type: Schema.Types.ObjectId,
-    ref: 'friends'}
-  ],
+  friends: [{type: Schema.Types.ObjectId,
+    ref: 'friends',
+  }],
 })
 
 const User = mongoose.model('User', userSchema);
