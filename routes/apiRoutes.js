@@ -35,7 +35,6 @@ router.delete('/deleteReaction', (req,res)=> {
 
   )
 
-
 })
 
 
@@ -46,16 +45,17 @@ router.post('/addFriend', async (req,res) => {
   const friendUserName = req.body.friendUserName
 let createFriend
 let newFriend
-  const findFriend = await friend.findOne({email: friendEmail},{lean: true})
-if(findFriend) {
-  newFriend = findFriend
-}
+  const findFriend = await friend.findOne({email: friendEmail})
+  
+
 if(findFriend == null) {
   createFriend = await friend.create([{name: friendName, email:friendEmail, username: friendUserName}])
   newFriend = createFriend[0]._doc
   }
-
-  const addFriend = User.findOneAndUpdate({_id:req.body.id}, {$addToSet: {friends: {_id:newFriend._id}}}, {new:true}, (err, result)=> {
+if(findFriend) {
+  const newfriend = findFriend[0]._doc
+  }
+  const addFriend = User.findOneAndUpdate({_id:req.body.id}, {$addToSet: {friends: {_id:newFriend._id, email: newFriend.email, name: newFriend.name, username: newFriend.username}}}, {new:true}, (err, result)=> {
       if(err) {console.log(err)}
       else {}
   })
@@ -68,7 +68,25 @@ if(findFriend == null) {
 })
 
 
+//delete a friend. 
+
+router.delete('/removeFriend', async (req,res) => {
+  const selectUser = req.body.userId
+  const selectFriend = req.body.id
+
+ const findFriend = await User.updateOne({_id: selectUser}, {
+  $pull: {
+    friends: selectFriend
+  }
+
+ })
+
+ if(findFriend) {
+  res.json({message:'friend has been removed.', findFriend})
+
+ }
 
 
+})
 
 module.exports = router;
